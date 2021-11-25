@@ -54,15 +54,17 @@ func main() {
 	}
 
 	var hashedPath = functions.RandomString(18)
-	functions.Modify(archive, patchTarget, strings.ReplaceAll(patchTarget, `'discord'`, hashedPath))
+	functions.Modify(archive, patchTarget, strings.ReplaceAll(patchTarget, `'discord'`, "'"+hashedPath+"'"))
 
 	roaming, err = os.UserConfigDir()
+
 	if err != nil {
 		handleErrors("Falha ao buscar o diretório AppData/Roaming. ")
 		return
 	}
 
-	err = os.Rename(path.Join(roaming, "testtest"), hashedPath)
+	err = os.Rename(path.Join(roaming, "discord"), path.Join(roaming, hashedPath))
+
 	if err != nil {
 		fmt.Println(err)
 		return
